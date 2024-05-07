@@ -144,7 +144,7 @@ def main():
     bird = Bird((900, 400))
     # bomb = Bomb((255, 0, 0), 10)
     bombs = [Bomb((255, 0, 0), 10) for _ in range(NUM_OF_BOMBS)]
-    beam = None
+    beam = [] #beamのリストを初期化
     clock = pg.time.Clock()
     tmr = 0
     while True:
