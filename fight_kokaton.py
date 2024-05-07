@@ -119,7 +119,8 @@ class Bomb:
 class Beam:
     def __init__(self, bird: Bird):
         """
-        あとでかく
+        引数　bird: Bird　#issue1
+        戻り値　なし
         """
         self.img = pg.transform.rotozoom(pg.image.load("fig/beam.png"), 0, 2.0)  # ビーム画像Surface
         self.rct: pg.Rect = self.img.get_rect()  # ビーム画像Rect
