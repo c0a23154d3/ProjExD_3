@@ -137,11 +137,31 @@ class Beam:
             screen.blit(self.img, self.rct)
 
 
+class Score: #スコア表示
+    def __init__(self):
+        self.font = pg.font.SysFont("hgp創英角ポップ体", 60)
+        self.color = (0, 0, 255)
+        self.value = 0
+        self.img = self.font.render("SCORE:" + str(self.value), 0, self.color)
+        self.pos = (600, HEIGHT/5)
+        
+    def update(self):
+        self.img = self.font.render("SCORE:" + str(self.value), 0, self.color)
+
+    def increase_score(self):
+        self.value += 1
+        self.update()
+
+    def draw(self, screen):
+        screen.blit(self.img,self.pos)
+
+
 def main():
     pg.display.set_caption("たたかえ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))    
     bg_img = pg.image.load("fig/pg_bg.jpg")
     bird = Bird((900, 400))
+    score = Score() #スコアインスタンスの作成
     # bomb = Bomb((255, 0, 0), 10)
     bombs = [Bomb((255, 0, 0), 10) for _ in range(NUM_OF_BOMBS)]
     beam = None
@@ -154,7 +174,7 @@ def main():
             if event.type == pg.KEYDOWN and event.key == pg.K_SPACE:
                 beam = Beam(bird)
         screen.blit(bg_img, [0, 0])
-        
+
         for bomb in bombs:
             if bird.rct.colliderect(bomb.rct):
                 # ゲームオーバー時に，こうかとん画像を切り替え，1秒間表示させる
@@ -169,6 +189,7 @@ def main():
                     beam = None
                     bombs[i] = None
                     bird.change_img(6, screen)
+                    score.increase_score() #スコアを増加させる
                     pg.display.update()
         bombs = [bomb for bomb in bombs if bomb is not None]
 
@@ -178,6 +199,7 @@ def main():
             bomb.update(screen)
         if beam is not None:
             beam.update(screen)
+        score.draw(screen) #スコアを表示
         pg.display.update()
         tmr += 1
         clock.tick(50)
